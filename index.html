@@ -7,7 +7,7 @@
   <body>
     <div id="timer"></div>
     <script>
-      function main() {
+      function work() {
         var timerElement = document.getElementById('timer');
         timerElement.textContent = 'Begin!';
         var num = 11;
@@ -22,7 +22,22 @@
           }
         }
       }
-      main();
+      function rest() {
+        var timerElement = document.getElementById('timer');
+        timerElement.textContent = 'Rest!';
+        var num = 4;
+        var timerId = setInterval(tick, 1000);
+        function tick() {
+          if(num == 1) {
+            clearInterval(timerId);
+            timerElement.textContent = 'Rest Finished!';
+          } else {
+            num--;
+            timerElement.textContent = num;
+          }
+        }
+      }
+      work();
     </script>
   </body>
 </html>
