@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Interval Timer</title>
+  </head>
+  <body>
+    <div id="timer"></div>
+    <script>
+      function main() {
+        var timerElement = document.getElementById('timer');
+        timerElement.textContent = 'Begin!';
+        var num = 11;
+        var timerId = setInterval(tick, 1000);
+        function tick() {
+          if(num == 1) {
+            clearInterval(timerId);
+            timerElement.textContent = 'Finished!';
+          } else {
+            num--;
+            timerElement.textContent = num;
+          }
+        }
+      }
+      main();
+    </script>
+  </body>
+</html>
