@@ -6,19 +6,24 @@
   </head>
   <body>
     <div id="timer"></div>
+    <div id="rounds"></div>
     <script>
       var timerElement = document.getElementById('timer');
+      // var roundsElement = document.getElementById('rounds');
       var config = {
-        work: {inverval: 11, label: 'Work'},
-        rest: {inverval: 4, label: 'Rest'}
+        work: {inverval: 10, label: 'Work'},
+        rest: {inverval: 5, label: 'Rest'}
       };
-      function timer(interval, label) {
-        var timerId = setInterval(tick, 1000);
+      function timer(interval = 3, label = 'Get Ready') {
         timerElement.textContent = label + '!';
+        var timerId = setInterval(tick, 1000);
         function tick() {
           if(interval == 1) {
             clearInterval(timerId);
             timerElement.textContent = 'Finished!';
+            if (label == 'Get Ready') {
+              timer(config.work.inverval, config.work.label);
+            }
             if (label == 'Work') {
               timer(config.rest.inverval, config.rest.label);
             }
@@ -28,7 +33,7 @@
           }
         }
       }
-      timer(config.work.inverval, config.work.label);
+      timer();
     </script>
   </body>
 </html>
