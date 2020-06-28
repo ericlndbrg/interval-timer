@@ -5,76 +5,30 @@
     <title>Interval Timer</title>
   </head>
   <body>
-    <div id="work"></div>
-    <div id="rest"></div>
+    <div id="timer"></div>
     <script>
-      // function work() {
-      //   console.log('`this` inside work' + this);
-      //   var timerElement = document.getElementById('timer');
-      //   timerElement.textContent = 'Begin!';
-      //   var num = 11;
-      //   var timerId = setInterval(tick, 1000);
-      //   function tick() {
-      //     console.log('`this` inside tick' + this);
-      //     if(num == 1) {
-      //       clearInterval(timerId);
-      //       timerElement.textContent = 'Finished!';
-      //     } else {
-      //       num--;
-      //       timerElement.textContent = num;
-      //     }
-      //   }
-      // }
-      // work();
-      function initTimer(work, rest) {
-        return new Promise(function(resolve, reject) {
-          if(Number.isInteger(work) && Number.isInteger(rest)) {
-            result = [work, rest];
-            resolve(result);
+      var timerElement = document.getElementById('timer');
+      var config = {
+        work: {inverval: 11, label: 'Work'},
+        rest: {inverval: 4, label: 'Rest'}
+      };
+      function timer(interval, label) {
+        var timerId = setInterval(tick, 1000);
+        timerElement.textContent = label + '!';
+        function tick() {
+          if(interval == 1) {
+            clearInterval(timerId);
+            timerElement.textContent = 'Finished!';
+            if (label == 'Work') {
+              timer(config.rest.inverval, config.rest.label);
+            }
           } else {
-            reject(new Error('Invalid input'))
+            interval--;
+            timerElement.textContent = interval;
           }
-        });
-      }
-      var promise = initTimer(10, 5);
-      console.log(promise);
-      promise
-        .then(function(result) {
-          var workTime = result[0];
-          var timerElement = document.getElementById('work');
-          timerElement.textContent = 'Work!';
-          var timerId = setInterval(tick, 1000);
-          function tick() {
-            if(workTime == 1) {
-              clearInterval(timerId);
-              timerElement.textContent = 'Work Finished!';
-            } else {
-              workTime--;
-              timerElement.textContent = workTime;
-            }
-          }
-          return result[1]
-        })
-        .then(function(result) {
-          var restTime = result;
-          var timerElement = document.getElementById('rest');
-          timerElement.textContent = 'Rest!';
-          var timerId = setInterval(tick, 1000);
-          function tick() {
-            if(restTime == 1) {
-              clearInterval(timerId);
-              timerElement.textContent = 'Rest Finished!';
-            } else {
-              restTime--;
-              timerElement.textContent = restTime;
-            }
-          }
-          // return result;
-        })
-        .catch(function(error) {
-          console.log(error);
         }
-      );
+      }
+      timer(config.work.inverval, config.work.label);
     </script>
   </body>
 </html>
