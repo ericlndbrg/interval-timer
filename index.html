@@ -5,9 +5,11 @@
     <title>Interval Timer</title>
   </head>
   <body>
+    <div id="label"></div>
     <div id="timer"></div>
     <div id="rounds"></div>
     <script>
+      var labelElement = document.getElementById('label');
       var timerElement = document.getElementById('timer');
       var roundsElement = document.getElementById('rounds');
       var config = {
@@ -16,23 +18,22 @@
       };
       var rounds = 5;
       function timer(interval, label) {
-        timerElement.textContent = label + '!';
+        labelElement.textContent = label + '!';
         var timerId = setInterval(tick, 1000);
         function tick() {
           timerElement.textContent = interval;
           roundsElement.textContent = rounds;
           if(interval == 0) {
-            rounds--;
-            timerElement.textContent = 'Finished!';
+            labelElement.textContent = 'Finished!';
             clearInterval(timerId);
             if (rounds > 0) {
-              timer(config.work.interval, config.work.label);
+              if (label == 'Work') {
+                timer(config.rest.interval, config.rest.label);
+              } else {
+                rounds--;
+                timer(config.work.interval, config.work.label);
+              }
             }
-            // if (label == 'Work') {
-            //   timer(config.rest.interval, config.rest.label);
-            // } else {
-            //   timer(config.work.interval, config.work.label);
-            // }
           } else {
             interval--;
           }
