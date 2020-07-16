@@ -7,39 +7,41 @@
   <body>
     <div id="label"></div>
     <div id="timer"></div>
-    <div id="rounds"></div>
+    <!-- <div id="rounds"></div> -->
     <script>
       var labelElement = document.getElementById('label');
       var timerElement = document.getElementById('timer');
-      var roundsElement = document.getElementById('rounds');
+      // var roundsElement = document.getElementById('rounds');
+
+      // var rounds = 3;
       var config = {
-        work: {interval: 6, label: 'Work'},
-        rest: {interval: 3, label: 'Rest'}
+        prep: {interval: 3, label: 'Get Ready!'},
+        work: {interval: 6, label: 'Go!'},
+        rest: {interval: 4, label: 'Rest!'}
       };
-      var rounds = 3;
+
       function timer(interval, label) {
-        labelElement.textContent = label + '!';
+        labelElement.textContent = label;
         var timerId = setInterval(tick, 1000);
         function tick() {
-          timerElement.textContent = interval;
-          roundsElement.textContent = rounds;
-          if(interval == 0) {
-            labelElement.textContent = 'Finished!';
+          if (interval == 0) {
+            timerElement.textContent = interval; // won't display 0 otherwise
             clearInterval(timerId);
-            if (rounds > 0) {
-              if (label == 'Work') {
-                timer(config.rest.interval, config.rest.label);
-              } else {
-                rounds--;
-                timer(config.work.interval, config.work.label);
-              }
+            if (label == 'Get Ready!') {
+              timer(config.work.interval, config.work.label);
+            } else if (label == 'Go!') {
+              timer(config.rest.interval, config.rest.label);
+            } else {
+              labelElement.textContent = 'Finished!';
             }
           } else {
-            interval--;
+          timerElement.textContent = interval;
+          interval--;
           }
         }
       }
-      timer(config.work.interval, config.work.label);
+
+      timer(config.prep.interval, config.prep.label);
     </script>
   </body>
 </html>
