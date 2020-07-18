@@ -5,35 +5,46 @@
     <title>Interval Timer</title>
   </head>
   <body>
+    <div id="label"></div>
     <div id="timer"></div>
     <div id="rounds"></div>
     <script>
+      var labelElement = document.getElementById('label');
       var timerElement = document.getElementById('timer');
-      // var roundsElement = document.getElementById('rounds');
+      var roundsElement = document.getElementById('rounds');
+      var rounds = 3;
       var config = {
-        work: {inverval: 10, label: 'Work'},
-        rest: {inverval: 5, label: 'Rest'}
+        prep: {interval: 3, label: 'Get Ready!'},
+        work: {interval: 6, label: 'Go!'},
+        rest: {interval: 4, label: 'Rest!'}
       };
-      function timer(interval = 3, label = 'Get Ready') {
-        timerElement.textContent = label + '!';
+      function timer(interval, label) {
+        labelElement.textContent = label;
+        roundsElement.textContent = rounds;
         var timerId = setInterval(tick, 1000);
         function tick() {
-          if(interval == 1) {
+          if (interval == 0) {
+            timerElement.textContent = interval; // won't display 0 otherwise
             clearInterval(timerId);
-            timerElement.textContent = 'Finished!';
-            if (label == 'Get Ready') {
-              timer(config.work.inverval, config.work.label);
+            if (label == 'Get Ready!') {
+              timer(config.work.interval, config.work.label);
+            } else if (label == 'Go!') {
+              timer(config.rest.interval, config.rest.label);
             }
-            if (label == 'Work') {
-              timer(config.rest.inverval, config.rest.label);
+            else if (label == 'Rest!' && rounds > 1) {
+              rounds--;
+              timer(config.work.interval, config.work.label);
+            } else {
+              labelElement.textContent = 'Finished!';
+              roundsElement.textContent = 0; // won't display 0 otherwise
             }
           } else {
-            interval--;
             timerElement.textContent = interval;
+            interval--;
           }
         }
       }
-      timer();
+      timer(config.prep.interval, config.prep.label);
     </script>
   </body>
 </html>
