@@ -5,46 +5,18 @@
     <title>Interval Timer</title>
   </head>
   <body>
+    <form>
+      <label for="work-int">Set a work interval:</label>
+      <input type="text" id="work-int" />
+      <label for="work-int">Set a rest interval:</label>
+      <input type="text" id="rest-int" />
+      <label for="work-int">Set the number of rounds:</label>
+      <input type="text" id="round-number" />
+      <input type="submit" id="submit" />
+    </form>
     <div id="label"></div>
     <div id="timer"></div>
     <div id="rounds"></div>
-    <script>
-      var labelElement = document.getElementById('label');
-      var timerElement = document.getElementById('timer');
-      var roundsElement = document.getElementById('rounds');
-      var rounds = 3;
-      var config = {
-        prep: {interval: 3, label: 'Get Ready!'},
-        work: {interval: 6, label: 'Go!'},
-        rest: {interval: 4, label: 'Rest!'}
-      };
-      function timer(interval, label) {
-        labelElement.textContent = label;
-        roundsElement.textContent = rounds;
-        var timerId = setInterval(tick, 1000);
-        function tick() {
-          if (interval == 0) {
-            timerElement.textContent = interval; // won't display 0 otherwise
-            clearInterval(timerId);
-            if (label == 'Get Ready!') {
-              timer(config.work.interval, config.work.label);
-            } else if (label == 'Go!') {
-              timer(config.rest.interval, config.rest.label);
-            }
-            else if (label == 'Rest!' && rounds > 1) {
-              rounds--;
-              timer(config.work.interval, config.work.label);
-            } else {
-              labelElement.textContent = 'Finished!';
-              roundsElement.textContent = 0; // won't display 0 otherwise
-            }
-          } else {
-            timerElement.textContent = interval;
-            interval--;
-          }
-        }
-      }
-      timer(config.prep.interval, config.prep.label);
-    </script>
+    <script src="js/index.js"></script>
   </body>
 </html>
