@@ -5,14 +5,17 @@
     <title>Interval Timer</title>
   </head>
   <body>
+    <audio id="beep">
+      <source src="sounds/beep-02.mp3" />
+    </audio>
     <form>
       <label for="work-int">Set a work interval:</label>
       <input type="text" id="work-int" />
-      <label for="work-int">Set a rest interval:</label>
+      <label for="rest-int">Set a rest interval:</label>
       <input type="text" id="rest-int" />
-      <label for="work-int">Set the number of rounds:</label>
+      <label for="round-number">Set the number of rounds:</label>
       <input type="text" id="round-number" />
-      <input type="submit" id="submit" />
+      <input type="submit" id="submit" value="Start" />
     </form>
     <div id="label"></div>
     <div id="timer"></div>
