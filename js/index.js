@@ -8,6 +8,7 @@ var submitElement = document.getElementById('submit');
 var rounds;
 var config;
 var beep = document.getElementById('beep');
+
 function timer(interval, label) {
   labelElement.textContent = label;
   var timerId = setInterval(tick, 1000);
@@ -40,18 +41,20 @@ function timer(interval, label) {
     }
   }
 }
+
 submitElement.addEventListener('click', function(event) {
-  event.preventDefault(); // keeps form from submitting
+  // keep the form from submitting
+  event.preventDefault();
   // set user-defined intervals and rounds
   config = {
     prep: {interval: 3, label: 'Get Ready!'},
     work: {interval: workInt.value, label: 'Go!'},
     rest: {interval: restInt.value, label: 'Rest!'}
   };
-  // sets initial values of interval and rounds
+  // set initial values of interval and rounds
   timerElement.textContent = config.prep.interval;
   rounds = roundNumber.value;
   roundsElement.textContent = rounds;
-  // kicks off timer
+  // kick off timer
   timer(config.prep.interval, config.prep.label);
 });
