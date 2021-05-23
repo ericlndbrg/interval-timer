@@ -7,6 +7,7 @@ var roundsElement = document.getElementById('rounds');
 var submitElement = document.getElementById('submit');
 var rounds;
 var config;
+
 function timer(interval, label) {
   labelElement.textContent = label;
   var timerId = setInterval(tick, 1000);
@@ -36,8 +37,9 @@ function timer(interval, label) {
     }
   }
 }
+
 submitElement.addEventListener('click', function(event) {
-  // keeps form from submitting
+  // keep the form from submitting
   event.preventDefault();
   // set user-defined intervals and rounds
   config = {
@@ -45,10 +47,10 @@ submitElement.addEventListener('click', function(event) {
     work: {interval: workInt.value, label: 'Go!'},
     rest: {interval: restInt.value, label: 'Rest!'}
   };
-  // sets initial values of interval and rounds
+  // set initial values of interval and rounds
   timerElement.textContent = config.prep.interval;
   rounds = roundNumber.value;
   roundsElement.textContent = rounds;
-  // kicks off timer
+  // kick off timer
   timer(config.prep.interval, config.prep.label);
 });
