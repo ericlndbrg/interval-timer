@@ -5,39 +5,34 @@ var labelElement = document.getElementById('label');
 var timerElement = document.getElementById('timer');
 var roundsElement = document.getElementById('rounds');
 var submitElement = document.getElementById('submit');
-var rounds;
 var config;
 var beep = document.getElementById('beep');
 
-function timer(interval, label) {
+function timer(interval, rounds, label) {
   labelElement.textContent = label;
   var timerId = setInterval(tick, 1000);
   function tick() {
-    if (interval == 0) {
-      timerElement.textContent = interval; // won't display 0 otherwise
+    timerElement.textContent = interval;
+    if(interval < 4 && interval > 0) {
+      beep.play();
+    }
+    interval--;
+    if(interval < 0) {
       clearInterval(timerId);
-      if (label == 'Get Ready!') {
-        timer(config.work.interval, config.work.label);
-      }
-      else if (label == 'Go!') {
-        timer(config.rest.interval, config.rest.label);
-      }
-      else if (label == 'Rest!' && rounds > 1) {
+      if(label == 'Rest!') {
         rounds--;
         roundsElement.textContent = rounds;
-        timer(config.work.interval, config.work.label);
       }
-      else {
+      if(rounds > 0) {
+        if(label == 'Get Ready!' || label == 'Rest!') {
+          timer(config.work.interval, rounds, config.work.label);
+        }
+        else if(label == 'Go!') {
+          timer(config.rest.interval, rounds, config.rest.label);
+        }
+      } else {
         labelElement.textContent = 'Finished!';
-        roundsElement.textContent = 0; // won't display 0 otherwise
       }
-    }
-    else {
-      timerElement.textContent = interval;
-      if (interval < 4) {
-        beep.play();
-      }
-      interval--;
     }
   }
 }
@@ -47,14 +42,14 @@ submitElement.addEventListener('click', function(event) {
   event.preventDefault();
   // set user-defined intervals and rounds
   config = {
-    prep: {interval: 3, label: 'Get Ready!'},
+    rounds: roundNumber.value,
+    prep: {interval: 5, label: 'Get Ready!'},
     work: {interval: workInt.value, label: 'Go!'},
     rest: {interval: restInt.value, label: 'Rest!'}
   };
   // set initial values of interval and rounds
   timerElement.textContent = config.prep.interval;
-  rounds = roundNumber.value;
-  roundsElement.textContent = rounds;
+  roundsElement.textContent = config.rounds;
   // kick off timer
-  timer(config.prep.interval, config.prep.label);
+  timer(config.prep.interval, config.rounds, config.prep.label);
 });
