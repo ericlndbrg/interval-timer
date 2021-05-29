@@ -1,55 +1,57 @@
-var workInt = document.getElementById('work-int');
-var restInt = document.getElementById('rest-int');
-var roundNumber = document.getElementById('round-number');
-var labelElement = document.getElementById('label');
-var timerElement = document.getElementById('timer');
-var roundsElement = document.getElementById('rounds');
-var submitElement = document.getElementById('submit');
-var config;
-var beep = document.getElementById('beep');
+function main(workInterval, restInterval, numberOfRounds) {
+  // grab the rest of the elements needed
+  var prepInterval = 5;
+  var prepLabel = 'Get Ready!';
+  var workLabel = 'Go!';
+  var restLabel = 'Rest!';
+  var labelElement = document.getElementById('label');
+  var beepElement = document.getElementById('beep');
 
-function timer(interval, rounds, label) {
-  labelElement.textContent = label;
-  var timerId = setInterval(tick, 1000);
-  function tick() {
-    timerElement.textContent = interval;
-    if(interval < 4 && interval > 0) {
-      beep.play();
-    }
-    interval--;
-    if(interval < 0) {
-      clearInterval(timerId);
-      if(label == 'Rest!') {
-        rounds--;
-        roundsElement.textContent = rounds;
+  // set initial values of interval and rounds
+  var timerElement = document.getElementById('timer');
+  var roundsElement = document.getElementById('rounds');
+  timerElement.textContent = prepInterval;
+  roundsElement.textContent = numberOfRounds;
+
+  function timer(interval, rounds, label) {
+    labelElement.textContent = label;
+    var timerId = setInterval(tick, 1000);
+    function tick() {
+      timerElement.textContent = interval;
+      if(interval < 4 && interval > 0) {
+        beepElement.play();
       }
-      if(rounds > 0) {
-        if(label == 'Get Ready!' || label == 'Rest!') {
-          timer(config.work.interval, rounds, config.work.label);
+      interval--;
+      if(interval < 0) {
+        clearInterval(timerId);
+        if(label == 'Rest!') {
+          rounds--;
+          roundsElement.textContent = rounds;
         }
-        else if(label == 'Go!') {
-          timer(config.rest.interval, rounds, config.rest.label);
+        if(rounds > 0) {
+          if(label == 'Get Ready!' || label == 'Rest!') {
+            timer(workInterval, rounds, workLabel);
+          }
+          else if(label == 'Go!') {
+            timer(restInterval, rounds, restLabel);
+          }
+        } else {
+          labelElement.textContent = 'Finished!';
         }
-      } else {
-        labelElement.textContent = 'Finished!';
       }
     }
   }
+  timer(prepInterval, numberOfRounds, prepLabel);
 }
 
+var submitElement = document.getElementById('submit');
 submitElement.addEventListener('click', function(event) {
   // keep the form from submitting
   event.preventDefault();
-  // set user-defined intervals and rounds
-  config = {
-    rounds: roundNumber.value,
-    prep: {interval: 5, label: 'Get Ready!'},
-    work: {interval: workInt.value, label: 'Go!'},
-    rest: {interval: restInt.value, label: 'Rest!'}
-  };
-  // set initial values of interval and rounds
-  timerElement.textContent = config.prep.interval;
-  roundsElement.textContent = config.rounds;
+  // grab work, rest and round elements
+  var workInt = document.getElementById('work-int');
+  var restInt = document.getElementById('rest-int');
+  var roundNumber = document.getElementById('round-number');
   // kick off timer
-  timer(config.prep.interval, config.rounds, config.prep.label);
+  main(workInt.value, restInt.value, roundNumber.value);
 });
